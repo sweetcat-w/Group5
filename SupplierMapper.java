@@ -1,0 +1,66 @@
+package com.system.mapper;
+
+import java.util.List;
+
+import com.system.pojo.Supplier;
+
+public interface SupplierMapper {
+
+	/**
+	 * 添加商品进货明细
+	 * @param supplier 添加的信息
+	 * @return 影响行数
+	 */
+    public int addSupplier(Supplier supplier);
+
+	/**
+	 * 按社会统一信用代码删除供应商
+	 * @param creditCode 社会统一信用代码
+	 * @return 影响行数
+	 */
+	public int delSupplierByNo(String creditCode);
+
+	/**
+	 * 按社会统一信用代码修改供应商
+	 * @param creditCode 社会统一信用代码
+	 * @return  
+	 */
+	public int editSupplierByNo(Supplier supplier);
+
+	/**
+	 * 按商品条形码查询进货明细
+	 * @param g_barCode 商品条形码
+	 * @return 查询结果
+	 */
+	public List<Supplier> getSupplierByCreditCode(String creditCode);
+
+	/**
+	 * 按供应商名称查询供应商
+	 * @param s_name 供应商名称
+	 * @return 查询结果
+	 */
+	public List<Supplier> getSupplierByName(String s_name);
+	
+	/**
+	 * 获取全部供应商总数
+	 * @return 统计结果
+	 */
+	public int getSupplierCount();
+
+	/**
+	 * 分页处理供应商
+	 * @param page 页
+	 * @param size 分页大小
+	 * @return
+	 */
+	public List<Supplier> getPartAllSupplier(int currentIndex, int size);
+
+	/**
+	 * 获取全部供应商
+	 * @return 供应商表
+	 */
+	public List<Supplier> getSupplierList();
+
+
+
+}
