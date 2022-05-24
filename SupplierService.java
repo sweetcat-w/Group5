@@ -33,7 +33,7 @@ public interface SupplierService {
 	 * @param g_barCode 商品条形码
 	 * @return 查询结果
 	 */
-	//public List<Supplier> getSupplierByCreditCode(String creditCode);
+	public List<Supplier> getSupplierByCreditCode(String creditCode);
 
 	/**
 	 * 按供应商名称查询供应商
@@ -62,7 +62,7 @@ public interface SupplierService {
 	 */
 	public List<Supplier> getSupplierList();
 
-	public Object getSupplierByNo(String creditCode);
+
 
 	
 
