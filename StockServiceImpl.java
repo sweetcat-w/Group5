@@ -19,7 +19,6 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public int delStockByName(String g_name) {
-	
 		return stockMapper.delStockByName(g_name);
 	}
 	
@@ -27,32 +26,27 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public List<Stock> getStockByBarCode(String g_barCode) {
-		
 		return stockMapper.getStockByBarCode(g_barCode);
 	}
 
 	@Override
 	public int editStockByName(Stock stock) {
-		
 		return stockMapper.editStockByName(stock);
 	}
 
 	@Override
-	public List<Stock> getStockByName(String g_name) {
-		
+	public List<Stock> getStockByName(String g_name) {	
 		return stockMapper.getStockByName(g_name);
 	}
 
 
 	@Override
 	public int getStockCount() {
-		
 		return stockMapper.getStockCount();
 	}
 
 	@Override
 	public List<Stock> getStockList() {
-
 		return stockMapper.getStockList();
 	}
 
