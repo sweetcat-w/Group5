@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.mapper.RegistrationMapper">
+
+	<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射 -->
+	<resultMap type="Registration" id="registrationList">
+		<result property="transactionNo" column="transactionNo"/>
+		<result property="suppler" column="suppler"/>
+		<result property="transactionDate" column="transactionDate"/>
+		<result property="p_category" column="p_category"/>
+		<result property="remarks" column="remarks"/>
+		</resultMap>
+	
+	<!-- 添加商品进货登记 -->
+	<insert id="addRegistration">
+		insert into p_registration(
+			transactionNo, suppler, transactionDate,
+			p_category,remarks
+		) values(
+			#{transactionNo}, #{suppler}, #{transactionDate},
+			#{p_category}, #{remarks}
+		)
+	</insert>
+	
+	<!-- 按交易单号删除进货登记 -->
+	<delete id="delRegistrationServiceByNo" parameterType="Integer">
+		delete from p_registration
+			where transactionNo = #{transactionNo}
+	</delete>
+	
+	<!-- 按交易单号修改进货登记 -->
+	<update id="editRegistrationByNo" parameterType="Registration">
+		update p_registration
+		<trim prefix="set" suffixOverrides="," suffix="where transactionNo = transactionNo">
+			
+			<if test="suppler != null and suppler != ''">
+				suppler = #{suppler},
+			</if>
+			
+			<if test="transactionDate != null and transactionDate != ''">
+				transactionDate = #{transactionDate}
+			</if>
+			
+			<if test="p_category != null and p_category != ''">
+				p_category = #{p_category},
+			</if>
+			
+			<if test="remarks != null and remarks != ''">
+				remarks = #{remarks},
+			</if>
+		</trim>
+	</update>
+	
+	<!-- 按交易日期查询进货登记 -->
+	<select id="getRegistrationByDate" resultMap="registrationList">
+		select * from p_registration
+			<where>
+				<if test="transactionDate != null and transactionDate != ''">
+					and transactionDate like CONCAT ('%',#{transactionDate},'%')
+				</if>
+			</where>
+	</select>
+	
+	<!-- 按供应商查询进货登记 -->
+	<select id="getRegistrationBySupplier" resultMap="registrationList">
+		select * from p_registration 
+		<where>
+			<if test="supplier !=null and supplier != '' ">
+				and supplier like CONCAT ('%',#{supplier},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 按交易单号查询进货登记 -->
+	<select id="getRegistrationByNo" resultMap="registrationList">
+		select * from p_registration 
+		<where>
+			<if test="transactionNo !=null and transactionNo != '' ">
+				and transactionNo like CONCAT ('%',#{transactionNo},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取全部进货登记 -->
+	<select id="getRegistrationList" resultMap="registrationList">
+		select * from p_registration 
+	</select>
+	
+	<!-- 获取全部进货登记总数 -->
+	<select id="getRegistrationCount" resultType="int">
+		select count(*) from p_registration
+	</select>
+</mapper>
