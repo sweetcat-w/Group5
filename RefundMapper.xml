@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.mapper.RefundMapper">
+
+	<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射 -->
+	<resultMap type="Refund" id="RefundList">
+		<result property="transactionNo" column="transactionNo"/> 
+		<result property="g_name" column="g_name"/>        
+		<result property="g_barCode" column="g_barCode"/>  	
+		<result property="g_manufactureDate" column="g_manufactureDate"/> 
+		<result property="r_num" column="r_num"/>  
+		<result property="g_specifications" column="g_specifications"/>  
+		<result property="g_unit" column="g_unit"/>  
+		<result property="r_date" column="r_date"/>  
+		
+	</resultMap>
+	
+	<!-- 添加商品退货登记 -->
+	<insert id="addRefund">
+		insert into p_refund(
+			transactionNo, g_name, g_barCode, g_manufactureDate,
+			r_num, g_specifications, g_unit,
+			r_date
+		) values(
+			#{transactionNo},#{g_name}, #{g_barCode}, #{g_manufactureDate},
+			#{r_num}, #{g_specifications}, #{g_unit},
+			#{r_date}
+		)
+	</insert>
+	
+	<!-- 按商品条形码删除退货登记 -->
+	<delete id="delRefundByNo" parameterType="Integer">
+		delete from p_Refund
+			where g_barCode = #{g_barCode}
+	</delete>
+	
+	<!-- 按商品条形码修改退货登记 -->
+	<update id="editRefundByNo" parameterType="Refund">
+		update p_refund
+		<trim prefix="set" suffixOverrides="," suffix="where g_barCode = #{g_barCode}">
+		
+			<if test="transactionNo != null and transactionNo != ''">
+				transactionNo = #{transactionNo},
+			</if>
+			
+			
+			<if test="transactionDate != null and transactionDate != ''">
+				transactionDate = #{transactionDate}
+			</if>
+			
+			<if test="g_name != null and g_name != ''">
+				g_name = #{g_name},
+			</if>
+			
+			<if test="g_manufactureDate != null and g_manufactureDate != ''">
+				g_manufactureDate = #{g_manufactureDate},
+			</if>
+			
+			<if test="r_num != null and r_num != ''">
+				r_num = #{r_num}
+			</if>
+			
+			<if test="g_specifications != null and g_specifications != ''">
+				g_specifications = #{g_specifications},
+			</if>
+			
+			<if test="g_unit != null and g_unit != ''">
+				g_unit = #{g_unit},
+			</if>
+			
+			<if test="r_date != null and r_date != ''">
+				r_date = #{r_date}
+			</if>
+			
+			
+		</trim>
+	</update>
+	
+	<!-- 按商品条形码查询退货登记 -->
+	<select id="getRefundByBarCode" resultMap="refundList">
+		select * from p_refund
+			<where>
+				<if test="g_barCode != null and g_barCode != ''">
+					and g_barCode like CONCAT ('%',#{g_barCode},'%')
+				</if>
+			</where>
+	</select>
+	
+	<!-- 按商品名称查询退货登记 -->
+	<select id="getRefundByName" resultMap="refundList">
+		select * from p_refund
+		<where>
+			<if test="g_name !=null and g_name != '' ">
+				and g_name like CONCAT ('%',#{g_name},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 按交易单号查询退货登记 -->
+	<select id="getRefundByNo" resultMap="refundList">
+		select * from p_refund
+		<where>
+			<if test="transactionNo !=null and transactionNo != '' ">
+				and transactionNo like CONCAT ('%',#{transactionNo},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取全部退货登记 -->
+	<select id="getRefundList" resultMap="refundList">
+		select * from p_refund
+	</select>
+	
+	<!-- 获取全部退货登记总数 -->
+	<select id="getRefundCount" resultType="int">
+		select count(*) from p_refund
+	</select>
+</mapper>
