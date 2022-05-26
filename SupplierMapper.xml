@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis-3-mapper.dtd" >
+< mapper namespace="com.system.mapper.SupplierMapper">
+
+	<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射 -->
+	<resultMap type="Supplier" id="supplierList">
+		<result property="creditCode" column="creditCode"/>
+		<result property="s_name" column="s_name"/>
+		<result property="s_type" column="s_type"/>
+		
+		<result property="s_liaisoner" column="s_liaisoner"/>
+		<result property="liaisonPhone" column="liaisonPhone"/>
+	
+	</resultMap>
+	
+	<!-- 添加供应商 -->
+	<insert id="addSupplier">
+		insert into supplier(
+			creditCode, s_name, s_type,
+			s_liaisoner, liaisonPhone
+		) values(
+			#{creditCode}, #{s_name}, #{s_type},
+			#{s_liaisoner}, #{liaisonPhone}
+		)
+	</insert>
+	
+	<!-- 按社会统一信用代码删除供应商 -->
+	<delete id="delSupplierByNo" parameterType="Integer">
+		delete from supplier
+			where creditCode = #{creditCode}
+	</delete>
+	
+	<!-- 按社会统一信用代码修改供应商 -->
+	<update id="editSupplierByNo" parameterType="Supplier">
+		update p_detailes
+		<trim prefix="set" suffixOverrides="," suffix="where creditCode = #{creditCode}">
+		
+			<if test="s_name != null and s_name != ''">
+				s_name = #{s_name},
+			</if>
+			
+			<if test="s_type != null and s_type != ''">
+				s_type = #{s_type},
+			</if>
+			
+			<if test="s_liaisoner != null and s_liaisoner != ''">
+				s_liaisoner = #{s_liaisoner}
+			</if>
+			
+			<if test="liaisonPhone != null and liaisonPhone != ''">
+				liaisonPhone = #{liaisonPhone},
+			</if>
+		</trim>
+	</update>
+	
+	<!-- 按社会统一信用代码查询供应商-->
+	<select id="getSupplierByCreditCode" resultMap="supplierList">
+		select * from supplier
+			<where>
+				<if test="creditCode != null and creditCode != ''">
+					and creditCode like CONCAT ('%',#{creditCode},'%')
+				</if>
+			</where>
+	</select>
+	
+	<!-- 按供应商名称查询供应商 -->
+	<select id="getSupplierByName" resultMap="supplierList">
+		select * from supplier 
+		<where>
+			<if test="s_name !=null and s_name != '' ">
+				and s_name like CONCAT ('%',#{s_name},'%')
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 获取全部供应商-->
+	<select id="getSupplierList" resultMap="SupplierList">
+		select * from supplier 
+	</select>
+	
+	<!-- 获取全部供应商总数 -->
+	<select id="getSupplierCount" resultType="int">
+		select count(*) from supplier
+	</select>
+</mapper>
