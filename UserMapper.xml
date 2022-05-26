@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.mapper.UserMapper">
+
+	<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射 -->
+	<resultMap type="User" id="userList">
+		<result property="userId" column="userId"/>
+		<result property="userName" column="userName"/>
+		<result property="phoneNum" column="phoneNum"/>
+		
+		<result property="password" column="password"/>
+		<result property=isAdmain" column="isAdmain"/>
+	</resultMap>
+	
+	<!-- 添加用户信息 -->
+	<insert id="addUser">
+		insert into user(
+			userId,userName,phoneNum,password,isAdmain
+		) values(
+			#{userId}, #{userName}, #{phoneNum},
+			#{password}, #{isAdmain}
+		)
+	</insert>
+	
+	<!--  按userId删除用户信息 -->
+	<delete id="delUserByNo" parameterType="Integer">
+		delete from user
+			where userId = #{userId}
+	</delete>
+	
+	<!-- 按userId修改用户信息 -->
+	<update id="editUserByNo" parameterType="User">
+		update user
+		<trim prefix="set" suffixOverrides="," suffix="where userId = #{userId}">
+		
+			<if test="userId != null and userId != ''">
+				userId = #{userId},
+			</if>
+			
+			<if test="userName != null and userName != ''">
+				userName = #{userName},
+			</if>
+			
+			<if test="phoneNum != null and phoneNum != ''">
+				phoneNum = #{phoneNum},
+			</if>
+			
+			<if test="password != null and password != ''">
+				password = #{password},
+			</if>
+			
+			
+			
+			<if test="isAdmain != null and isAdmain != ''">
+				isAdmain = #{isAdmain}
+			</if>
+			
+			
+			
+		</trim>
+	</update>
+
+	
+	<!-- 按用户名称查询用户信息 -->
+	<select id="getUserByName" resultMap="userList">
+		select * from user 
+		<where>
+			<if test="userName !=null and userName != '' ">
+				and userName like CONCAT ('%',#{userName},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 按userId查询用户信息 -->
+	<select id="getUserByNo" resultMap="userList">
+		select * from user 
+		<where>
+			<if test="userId !=null and userId != '' ">
+				and userId like CONCAT ('%',#{userId},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取全部用户信息 -->
+	<select id="getUserList" resultMap="userList">
+		select * from user 
+	</select>
+	
+	<!--  获取全部用户总数 -->
+	<select id="getUserCount" resultType="int">
+		select count(*) from user
+	</select>
+</mapper>
