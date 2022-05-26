@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis-3-mapper.dtd" >
+<mapper namespace="com.system.mapper.StockMapper">
+
+	<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射 -->
+	<resultMap type="Stock" id="stockList">
+		<result property="g_name" column="g_name"/>
+		<result property="g_barCode" column="g_barCode"/>
+		<result property="g_shelfLife" column="g_shelfLife"/>
+		
+		<result property="g_type" column="g_type"/>
+		<result property="s_num" column="s_num"/>
+		<result property="g_nuit" column="g_nuit"/>
+		
+		<result property="g_lsexpired" column="g_lsexpired"/>
+		
+	</resultMap>
+	
+	<!-- 添加商品库存 -->
+	<insert id="addStock">
+		insert into g_stock(
+			g_name, g_barCode, g_shelfLife,
+			g_type, s_num, g_nuit,
+			g_lsexpired
+		) values(
+			#{g_name}, #{g_barCode}, #{g_shelfLife},
+			#{g_type}, #{s_num}, #{g_nuit},
+			#{g_lsexpired}
+		)
+	</insert>
+	
+	<!-- 按商品条形码删除库存 -->
+	<delete id="delStockByBarCode" parameterType="Integer">
+		delete from g_stock
+			where g_barCode = #{g_barCode}
+	</delete>
+	
+	<!-- 按商品条形码修改库存 -->
+	<update id="editStockByBarCode" parameterType="Stock">
+		update g_stock
+		<trim prefix="set" suffixOverrides="," suffix="where g_barCode = #{g_barCode}">
+		
+			<if test="g_name != null and g_name != ''">
+				g_name = #{g_name},
+			</if>
+			
+			<if test="g_shelfLife != null and g_shelfLife != ''">
+				g_shelfLife = #{g_shelfLife},
+			</if>
+			
+			<if test="g_type != null and g_type != ''">
+				g_type = #{g_type}
+			</if>
+			
+			<if test="s_num != null and s_num != ''">
+				s_num = #{s_num},
+			</if>
+			
+			<if test="g_nuit != null and g_nuit != ''">
+				g_nuit = #{g_nuit},
+			</if>
+			
+			<if test="g_lsexpired != null and g_lsexpired != ''">
+				g_lsexpired = #{g_lsexpired}
+			</if>
+			
+			
+			
+		</trim>
+	</update>
+	
+	<!-- 按商品条形码查询库存 -->
+	<select id="getStockByBarCode" resultMap="stockList">
+		select * from g_stock
+			<where>
+				<if test="g_barCode != null and g_barCode != ''">
+					and g_barCode like CONCAT ('%',#{g_barCode},'%')
+				</if>
+			</where>
+	</select>
+	
+	<!-- 按商品名称查询库存 -->
+	<select id="getStockByName" resultMap="stockList">
+		select * from g_stock 
+		<where>
+			<if test="g_name !=null and g_name != '' ">
+				and g_name like CONCAT ('%',#{g_name},'%')
+			</if>
+		</where>
+	</select>
+	
+
+	
+	<!-- 获取全部库存 -->
+	<select id="getStockList" resultMap="stockList">
+		select * from g_stock 
+	</select>
+	
+	<!-- 获取全部库存总数 -->
+	<select id="getStockCount" resultType="int">
+		select count(*) from g_stock
+	</select>
+</mapper>
