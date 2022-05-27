@@ -1,57 +1,85 @@
-package com.system.mapper;
+package com.system.mapper.impl;
 
 import java.util.List;
-
+import org.apache.ibatis.session.SqlSession;
+import com.system.mapper.StockMapper;
 import com.system.pojo.Stock;
+import com.system.util.MybatisUtil;
 
 public class StockMapperImpl implements StockMapper {
 
 	@Override
 	public int addStock(Stock stock) {
-		
-		return 0;
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		int count = session.getMapper(StockMapper.class).addStock(stock);
+		session.commit();
+		if(session != null)
+			session.close();
+		return count;
 	}
 
 	@Override
-	public int delStockByName(String g_name) {
-		
-		return 0;
+	public int delStockByBarCode(String g_barCode) {
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		int count = session.getMapper(StockMapper.class).delStockByBarCode(g_barCode);
+		session.commit();
+		if(session != null)
+			session.close();
+		return count;
 	}
 
 	@Override
-	public int editStockByName(Stock stock) {
-		
-		return 0;
+	public int editStockByBarCode(Stock stock) {
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		int count = session.getMapper(StockMapper.class).editStockByBarCode(stock);
+		session.commit();
+		if(session != null)
+			session.close();
+		return count;
 	}
 
 	@Override
 	public List<Stock> getStockByName(String g_name) {
-		
-		return null;
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		List<Stock> stock = session.getMapper(StockMapper.class).getStockByName(g_name);
+		if(session != null)
+			session.close();
+		return stock;
 	}
 
 	@Override
 	public List<Stock> getStockByBarCode(String g_barCode) {
-		
-		return null;
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		List<Stock> stock = session.getMapper(StockMapper.class).getStockByBarCode(g_barCode);
+		if(session != null)
+			session.close();
+		return stock;
 	}
 
-	@Override
-	public List<Stock> getPartAllStock(int page, int size) {
-		
-		return null;
-	}
+
 
 	@Override
 	public int getStockCount() {
-		
-		return 0;
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		int count = session.getMapper(StockMapper.class).getStockCount();
+		if(session != null)
+			session.close();
+		return count;
 	}
 
 	@Override
 	public List<Stock> getStockList() {
-		
-		return null;
+		SqlSession session = null;
+		session = MybatisUtil.createSqlSession();
+		List<Stock> stock = session.getMapper(StockMapper.class).getStockList();
+		if(session != null)
+			session.close();
+		return stock;
 	}
-
 }
