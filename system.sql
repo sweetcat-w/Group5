@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : test
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 50727
+ Source Server Version : 100137
  Source Host           : localhost:3306
  Source Schema         : system
 
  Target Server Type    : MySQL
- Target Server Version : 50727
+ Target Server Version : 100137
  File Encoding         : 65001
 
- Date: 25/05/2022 21:13:11
+ Date: 28/05/2022 21:43:14
 */
 
 SET NAMES utf8mb4;
@@ -138,7 +138,7 @@ CREATE TABLE `refund`  (
 DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE `supplier`  (
   `creditCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '统一社会信用代码',
-  `s_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '供应商姓名',
+  `s_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '供应商名称',
   `s_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '供应商状态',
   `s_liaisoner` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '联系人',
   `liaisonPhone` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '联系电话',
@@ -155,7 +155,7 @@ CREATE TABLE `supplier`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `userId` int(5) NOT NULL COMMENT '用户id',
+  `userId` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '用户id',
   `userName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '用户名',
   `phoneNum` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '联系电话',
   `password` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '密码',
@@ -166,5 +166,6 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('admin', '管理员', '10001', '123456', 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
