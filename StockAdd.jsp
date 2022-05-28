@@ -20,7 +20,7 @@
 				</div>
 				<div class="well" style="height:400px;">
 					<ul class="nav nav-tabs" style="width:1200px;">
-						<li class="active" style="width:1200px;"><a href="#home" data-toggle="tab">库存</a></li>
+						<li class="active" style="width:1200px;"><a href="#home" data-toggle="tab">班级信息</a></li>
 					</ul>
 					<div id="myTabContent">					
 							<ul style="list-style: none; position: relative; left: -20px; height: 200px; width:180px;">
