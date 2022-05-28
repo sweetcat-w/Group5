@@ -83,5 +83,11 @@ public  class SupplierMapperImpl implements SupplierMapper{
 		return count;
 	}
 
+	@Override
+	public List<Supplier> getPartAllSupplier(int currentIndex, int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }
